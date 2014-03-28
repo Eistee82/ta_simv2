@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Tiberium Alliances Battle Simulator V2</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript">
+        var _onload = function () {
+            var jsonData = $.parseJSON($.ajax({
+                url: "https://www.googleapis.com/urlshortener/v1/url?shortUrl=http://goo.gl/hPdG3K&projection=FULL",
+                async: false
+            }).responseText);
+            $(".starts")[0].textContent = "Starts: " + jsonData.analytics.allTime.shortUrlClicks;
+        };
+        
+        $(function () {
+            _onload();
+            window.setInterval("_onload()", 5000);
+        });
+    </script>
+    <style type="text/css">
+        @keyframes fade1 {
+            0% {
+                background-color: #008A00;
+            }
+
+            33% {
+                background-color: #00008A;
+            }
+
+            66% {
+                background-color: #8A0000;
+            }
+
+            100% {
+                background-color: #008A00;
+            }
+        }
+        @keyframes fade2 {
+            0% {
+                background-color: #00008A;
+            }
+
+            33% {
+                background-color: #8A0000;
+            }
+
+            66% {
+                background-color: #008A00;
+            }
+
+            100% {
+                background-color: #00008A;
+            }
+        }
+        * {
+            font-family: 'Segoe UI Semilight','Segoe UI',Tahoma,Helvetica,sans-serif;
+            font-weight: 400;
+            font-size: 18px;
+            color: #FFF;
+            letter-spacing: 0.5px;
+        }
+
+        body {
+            padding-left: 10%;
+            background-color: #008A00;
+            animation: fade1 360s infinite;
+        }
+
+        div {
+            max-width: 90%;
+        }
+
+        h1 {
+            font-weight: 200;
+            font-size: 40px;
+            text-align: center;
+        }
+
+        span {
+            font-weight: 200;
+            font-size: 25px;
+            margin-bottom: 0px;
+        }
+        button {
+            background-color: #8A0000;
+            animation: fade2 360s infinite;
+            border-radius: 13px;
+            font-weight: 600;
+            font-size: 25px;
+        }
+        .starts {
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Tiberium Alliances Battle Simulator V2<br /><button>Install</button></h1>
+
+        <p>Completely new simulator and stats calculation. It's 100% API no need to install any other Script. First simulator which calculates NOD upgrades correctly. Simulations are cached so you don't need to wait another 10 secounds to view the stats or simulation. Best results are automaticly filtered to the columns just doubleclick it to get the formation you need. Resize the stats window to get more columns and filters. Many functions are not done yet but at the moment you can already use it to get a first look.</p>
+        <p><span>Author:</span> Eistee and TheStriker</p>
+        <p><span>Feautures:</span>
+            <ul>
+                <li><span>Language:</span> English + some ingame translations based on the Server you are playing.</li>
+                <li><span>Translation:</span> german</li>
+            </ul>
+        </p>
+        <p><span>License:</span> <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-nd/4.0/80x15.png" /></a> (Scriptpacks are not allowed!)</p>
+        <div class="starts"></div>
+        <div><img src="simV2.png" width="100%"/></div>
+    </div>
+</body>
+</html>
