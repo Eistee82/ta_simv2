@@ -4,7 +4,10 @@
 <head>
     <meta charset="utf-8" />
     <title>Tiberium Alliances Battle Simulator V2</title>
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script type="text/javascript" src="http://coinwidget.com/widget/coin.js"></script>
     <script type="text/javascript">
         var _onload = function () {
             var jsonData = $.parseJSON($.ajax({
@@ -12,10 +15,12 @@
                 async: false
             }).responseText);
             $(".starts")[0].textContent = "Starts: " + jsonData.analytics.allTime.shortUrlClicks;
+			$("[class^='COINWIDGETCOM'] *").addClass("exclude");
         };
         
         $(function () {
             _onload();
+            window.setTimeout("_onload()", 1000);
             window.setInterval("_onload()", 5000);
         });
     </script>
@@ -54,36 +59,32 @@
                 background-color: #00008A;
             }
         }
-        * {
+        *:not(.exclude) {
             font-family: 'Segoe UI Semilight','Segoe UI',Tahoma,Helvetica,sans-serif;
             font-weight: 400;
             font-size: 18px;
             color: #FFF;
-            letter-spacing: 0.5px;
         }
-
-        body {
+        body:not(.exclude) {
+            letter-spacing: 0.5px;
             padding-left: 10%;
             background-color: #008A00;
             animation: fade1 360s infinite;
         }
-
-        div {
+        div:not(.exclude) {
             max-width: 90%;
         }
-
-        h1 {
+        h1:not(.exclude) {
             font-weight: 200;
             font-size: 40px;
             text-align: center;
         }
-
-        span {
+        span:not(.exclude) {
             font-weight: 200;
             font-size: 25px;
             margin-bottom: 0px;
         }
-        button {
+        button:not(.exclude) {
             background-color: #8A0000;
             animation: fade2 360s infinite;
             border-radius: 13px;
@@ -97,7 +98,7 @@
 </head>
 <body>
     <div>
-        <h1>Tiberium Alliances Battle Simulator V2<br /><button onclick="window.location.href = 'ta_simv2.user.js'">Install</button></h1>
+			<h1>Tiberium Alliances Battle Simulator V2<br /><button onclick="window.location.href = 'ta_simv2.user.js'">Install</button></h1>
 
         <p>Completely new simulator and stats calculation. It's 100% API no need to install any other Script. First simulator which calculates NOD upgrades correctly. Simulations are cached so you don't need to wait another 10 secounds to view the stats or simulation. Best results are automaticly filtered to the columns just doubleclick it to get the formation you need. Resize the stats window to get more columns and filters. Many functions are not done yet but at the moment you can already use it to get a first look. Please use the official Tiberium Alliances Forum (<a href="http://forum.alliances.commandandconquer.com/showthread.php?tid=29858">english</a> or <a href="http://forum.alliances.commandandconquer.com/showthread.php?tid=29859">german</a>) to comment and make suggestions for this script.</p>
         <p><span>Author:</span> Eistee and TheStriker</p>
@@ -142,5 +143,6 @@
 			</ul>
 		</div>
     </div>
+	<script>CoinWidgetCom.go({wallet_address: "1BDnzgJ4yhLyepMUXjnpXwgLb3BbLWiR8c", currency: "bitcoin", counter: "count", alignment: "bl", qrcode: true, auto_show: true, lbl_button: "Donate", lbl_address: "My Bitcoin Address:", lbl_count: "donations", lbl_amount: "BTC"});</script>
 </body>
 </html>
