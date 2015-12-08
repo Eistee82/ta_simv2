@@ -2769,11 +2769,11 @@
 						//Move Box
 						this.boxMove = new qx.ui.container.Composite(new qx.ui.layout.Grid()).set({
 								decorator : "pane-light-plain",
-								opacity : 0.7,
-								paddingTop : 2,
-								paddingLeft : 4,
-								paddingRight : 3,
-								paddingBottom : 5
+				                                opacity : 0.7,
+				                                paddingTop : 0,
+				                                paddingLeft : 2,
+				                                paddingRight : 1,
+				                                paddingBottom : 3
 							});
 
 						this.boxMove.add(this.newButton(TABS.RES.IMG.Stats, this.tr("Statistic") + " [NUM 7]", this.onClick_btnStats, null, null), {
@@ -3170,35 +3170,35 @@
 						this.LabelsVBox = {
 							Battle : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
-								padding : 5,
+								padding : 9,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
 							}),
 							Enemy : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
-								padding : 5,
+								padding : 9,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
 							}),
 							Repair : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
-								padding : 5,
+								padding : 9,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
 							}),
 							Loot : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
-								padding : 5,
+								padding : 9,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
 							}),
 							Buttons : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
-								padding : 5,
+								padding : 9,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
@@ -3401,7 +3401,7 @@
 						Header.add(new qx.ui.basic.Label(text).set({
 								alignX : "center",
 								alignY : "middle",
-								paddingTop : -2,
+								paddingTop : -4,
 								paddingBottom : 4,
 								font : "font_size_13_bold_shadow"
 							}));
@@ -3595,35 +3595,35 @@
 						this.Prio = defaultPreset.Prio;
 						this.GUI = {
 							Battle : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-								padding : 5,
+								//padding : 5,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0,
 								decorator : "pane-light-opaque"
 							}),
 							Enemy : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-								padding : 5,
+								//padding : 5,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0,
 								decorator : "pane-light-opaque"
 							}),
 							Repair : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-								padding : 5,
+								//padding : 5,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0,
 								decorator : "pane-light-opaque"
 							}),
 							Loot : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-								padding : 5,
+								//padding : 5,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0,
 								decorator : "pane-light-opaque"
 							}),
 							Buttons : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-								padding : 5,
+								//padding : 5,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0,
