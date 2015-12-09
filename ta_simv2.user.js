@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name            Tiberium Alliances Battle Simulator V2
 // @description     Allows you to simulate combat before actually attacking.
-// @author          Eistee & TheStriker
-// @version         15.12.08
+// @author          Eistee & TheStriker & VisiG & Lobotommi
+// @version         15.12.09
 // @namespace       https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @include         https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @icon            http://eistee82.github.io/ta_simv2/icon.png
