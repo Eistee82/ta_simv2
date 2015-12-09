@@ -901,7 +901,7 @@
                     StartReplay : function (cityid, combat) {
                         qx.core.Init.getApplication().getPlayArea().setView(ClientLib.Data.PlayerAreaViewMode.pavmCombatReplay, cityid, 0, 0);
                         ClientLib.Vis.VisMain.GetInstance().get_Battleground().Init();
-                        ClientLib.Vis.VisMain.GetInstance().get_Battleground().LoadCombatDirect(combat);
+                        //ClientLib.Vis.VisMain.GetInstance().get_Battleground().LoadCombatDirect(combat);
                         qx.event.Timer.once(function () {
                             ClientLib.Vis.VisMain.GetInstance().get_Battleground().RestartReplay();
                             ClientLib.Vis.VisMain.GetInstance().get_Battleground().set_ReplaySpeed(1);
