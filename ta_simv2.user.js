@@ -901,7 +901,7 @@
                     StartReplay : function (cityid, combat) {
                         qx.core.Init.getApplication().getPlayArea().setView(ClientLib.Data.PlayerAreaViewMode.pavmCombatReplay, cityid, 0, 0);
                         ClientLib.Vis.VisMain.GetInstance().get_Battleground().Init();
-                        //ClientLib.Vis.VisMain.GetInstance().get_Battleground().LoadCombatDirect(combat);
+                        ClientLib.Vis.VisMain.GetInstance().get_Battleground().LoadCombatDirect(combat);
                         qx.event.Timer.once(function () {
                             ClientLib.Vis.VisMain.GetInstance().get_Battleground().RestartReplay();
                             ClientLib.Vis.VisMain.GetInstance().get_Battleground().set_ReplaySpeed(1);
@@ -4278,6 +4278,16 @@
 						ClientLib.Data.MainData.GetInstance().get_Server().get_WorldId() !== 0) {
 						try {
 							console.time("loaded in");
+							
+							// replacing LoadCombatDirect
+							if (ClientLib.Vis.Battleground.Battleground.prototype.LoadCombatDirect === undefined) {
+							var sBString = ClientLib.API.Battleground.prototype.SimulateBattle.toString();
+							var targetMethod = sBString.match(/\{battleSetup:[a-z]+\},\s?\(new \$I\.[A-Z]{6}\)\.[A-Z]{6}\(this,this\.([A-Z]{6})\),\s?this\);/)[1];
+							var lCString = ClientLib.API.Battleground.prototype[targetMethod].toString();
+							var methodLoadDirect = lCString.match(/\$I\.[A-Z]{6}\.[A-Z]{6}\(\)\.[A-Z]{6}\(\)\.([A-Z]{6})\(b\.d\);/)[1];
+							console.log(methodLoadDirect);
+							ClientLib.Vis.Battleground.Battleground.prototype.LoadCombatDirect = ClientLib.Vis.Battleground.Battleground.prototype[methodLoadDirect];
+							}
                             translation();
                             createClasses();
                             TABS.getInstance();
