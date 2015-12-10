@@ -2610,7 +2610,7 @@
 						var i,
 							cntWave;
 						for (i = 0; i < ClientLib.Base.Util.get_ArmyMaxSlotCountY(); i++) {
-							cntWave = this.ArmySetupAttackBar.getMainContainer().getChildren()[(i + 4)];
+							cntWave = this.ArmySetupAttackBar.getMainContainer().getChildren()[(i + 3)];
 							cntWave._removeAll();
 							cntWave._setLayout(new qx.ui.layout.HBox());
 							cntWave._add(this.newSideButton(TABS.RES.IMG.Flip.H, this.tr("Mirrors units horizontally."), this.onClick_btnMirror, "h", i));
