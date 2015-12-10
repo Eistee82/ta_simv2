@@ -2632,7 +2632,7 @@
 						btnHBoxouter.add(new qx.ui.core.Spacer(), {
 							flex : 1
 						});
-						this.ArmySetupAttackBar.add(btnHBoxouter, {
+						this.ArmySetupAttackBar.addAt(btnHBoxouter, 2, {
 							left : 16,
 							top : 7,
 							right : 0
