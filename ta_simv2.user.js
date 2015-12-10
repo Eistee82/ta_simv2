@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name            Tiberium Alliances Battle Simulator V2
 // @description     Allows you to simulate combat before actually attacking.
-// @author          Eistee & TheStriker
-// @version         15.11.13
+// @author          Eistee & TheStriker & VisiG & Lobotommi
+// @version         15.12.09
 // @namespace       https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @include         https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @icon            http://eistee82.github.io/ta_simv2/icon.png
@@ -2611,14 +2611,14 @@
 							cntWave;
 						for (i = 0; i < ClientLib.Base.Util.get_ArmyMaxSlotCountY(); i++) {
 							cntWave = this.ArmySetupAttackBar.getMainContainer().getChildren()[(i + 4)];
-							cntWave.removeAll();
-							cntWave.setLayout(new qx.ui.layout.HBox());
-							cntWave.add(this.newSideButton(TABS.RES.IMG.Flip.H, this.tr("Mirrors units horizontally."), this.onClick_btnMirror, "h", i));
-							cntWave.add(new qx.ui.core.Spacer(), {
+							cntWave._removeAll();
+							cntWave._setLayout(new qx.ui.layout.HBox());
+							cntWave._add(this.newSideButton(TABS.RES.IMG.Flip.H, this.tr("Mirrors units horizontally."), this.onClick_btnMirror, "h", i));
+							cntWave._add(new qx.ui.core.Spacer(), {
 								flex : 1
 							});
-							cntWave.add(this.newSideButton(TABS.RES.IMG.Arrows.Left, this.tr("Shifts units one space left."), this.onClick_btnShift, "l", i));
-							cntWave.add(this.newSideButton(TABS.RES.IMG.Arrows.Right, this.tr("Shifts units one space right."), this.onClick_btnShift, "r", i));
+							cntWave._add(this.newSideButton(TABS.RES.IMG.Arrows.Left, this.tr("Shifts units one space left."), this.onClick_btnShift, "l", i));
+							cntWave._add(this.newSideButton(TABS.RES.IMG.Arrows.Right, this.tr("Shifts units one space right."), this.onClick_btnShift, "r", i));
 						}
 
 						// Mirror and Shift Buttons top
@@ -2769,11 +2769,11 @@
 						//Move Box
 						this.boxMove = new qx.ui.container.Composite(new qx.ui.layout.Grid()).set({
 								decorator : "pane-light-plain",
-								opacity : 0.7,
-								paddingTop : 2,
-								paddingLeft : 4,
-								paddingRight : 3,
-								paddingBottom : 5
+				                                opacity : 0.7,
+				                                paddingTop : 0,
+				                                paddingLeft : 2,
+				                                paddingRight : 1,
+				                                paddingBottom : 3
 							});
 
 						this.boxMove.add(this.newButton(TABS.RES.IMG.Stats, this.tr("Statistic") + " [NUM 7]", this.onClick_btnStats, null, null), {
@@ -3170,35 +3170,35 @@
 						this.LabelsVBox = {
 							Battle : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
-								padding : 5,
+								padding : 9,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
 							}),
 							Enemy : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
-								padding : 5,
+								padding : 9,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
 							}),
 							Repair : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
-								padding : 5,
+								padding : 9,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
 							}),
 							Loot : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
-								padding : 5,
+								padding : 9,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
 							}),
 							Buttons : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
-								padding : 5,
+								padding : 9,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
@@ -3401,7 +3401,7 @@
 						Header.add(new qx.ui.basic.Label(text).set({
 								alignX : "center",
 								alignY : "middle",
-								paddingTop : -2,
+								paddingTop : -4,
 								paddingBottom : 4,
 								font : "font_size_13_bold_shadow"
 							}));
@@ -3595,35 +3595,35 @@
 						this.Prio = defaultPreset.Prio;
 						this.GUI = {
 							Battle : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-								padding : 5,
+								//padding : 5,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0,
 								decorator : "pane-light-opaque"
 							}),
 							Enemy : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-								padding : 5,
+								//padding : 5,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0,
 								decorator : "pane-light-opaque"
 							}),
 							Repair : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-								padding : 5,
+								//padding : 5,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0,
 								decorator : "pane-light-opaque"
 							}),
 							Loot : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-								padding : 5,
+								//padding : 5,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0,
 								decorator : "pane-light-opaque"
 							}),
 							Buttons : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-								padding : 5,
+								//padding : 5,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0,
@@ -4278,6 +4278,16 @@
 						ClientLib.Data.MainData.GetInstance().get_Server().get_WorldId() !== 0) {
 						try {
 							console.time("loaded in");
+							
+							// replacing LoadCombatDirect
+							if (ClientLib.Vis.Battleground.Battleground.prototype.LoadCombatDirect === undefined) {
+							var sBString = ClientLib.API.Battleground.prototype.SimulateBattle.toString();
+							var targetMethod = sBString.match(/\{battleSetup:[a-z]+\},\s?\(new \$I\.[A-Z]{6}\)\.[A-Z]{6}\(this,this\.([A-Z]{6})\),\s?this\);/)[1];
+							var lCString = ClientLib.API.Battleground.prototype[targetMethod].toString();
+							var methodLoadDirect = lCString.match(/\$I\.[A-Z]{6}\.[A-Z]{6}\(\)\.[A-Z]{6}\(\)\.([A-Z]{6})\(b\.d\);/)[1];
+							console.log(methodLoadDirect);
+							ClientLib.Vis.Battleground.Battleground.prototype.LoadCombatDirect = ClientLib.Vis.Battleground.Battleground.prototype[methodLoadDirect];
+							}
                             translation();
                             createClasses();
                             TABS.getInstance();
