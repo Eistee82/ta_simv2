@@ -2610,7 +2610,12 @@
 						var i,
 							cntWave;
 						for (i = 0; i < ClientLib.Base.Util.get_ArmyMaxSlotCountY(); i++) {
-							cntWave = this.ArmySetupAttackBar.getMainContainer().getChildren()[(i + 3)];
+							for (i = 0; i < ClientLib.Base.Util.get_ArmyMaxSlotCountY(); i++) {
+							if (PerforceChangelist >= 441469) { // 15.4 patch
+							    cntWave = this.ArmySetupAttackBar.getMainContainer().getChildren()[(i + 3)];
+							} else { //old
+							    cntWave = this.ArmySetupAttackBar.getMainContainer().getChildren()[(i + 4)];
+							}
 							cntWave._removeAll();
 							cntWave._setLayout(new qx.ui.layout.HBox());
 							cntWave._add(this.newSideButton(TABS.RES.IMG.Flip.H, this.tr("Mirrors units horizontally."), this.onClick_btnMirror, "h", i));
