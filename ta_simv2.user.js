@@ -2611,19 +2611,20 @@
 							cntWave;
 						for (i = 0; i < ClientLib.Base.Util.get_ArmyMaxSlotCountY(); i++) {
 							for (i = 0; i < ClientLib.Base.Util.get_ArmyMaxSlotCountY(); i++) {
-							if (PerforceChangelist >= 441469) { // 15.4 patch
-							    cntWave = this.ArmySetupAttackBar.getMainContainer().getChildren()[(i + 3)];
-							} else { //old
-							    cntWave = this.ArmySetupAttackBar.getMainContainer().getChildren()[(i + 4)];
+								if (PerforceChangelist >= 441469) { // 15.4 patch
+								    cntWave = this.ArmySetupAttackBar.getMainContainer().getChildren()[(i + 3)];
+								} else { //old
+								    cntWave = this.ArmySetupAttackBar.getMainContainer().getChildren()[(i + 4)];
+								}
+								cntWave._removeAll();
+								cntWave._setLayout(new qx.ui.layout.HBox());
+								cntWave._add(this.newSideButton(TABS.RES.IMG.Flip.H, this.tr("Mirrors units horizontally."), this.onClick_btnMirror, "h", i));
+								cntWave._add(new qx.ui.core.Spacer(), {
+									flex : 1
+								});
+								cntWave._add(this.newSideButton(TABS.RES.IMG.Arrows.Left, this.tr("Shifts units one space left."), this.onClick_btnShift, "l", i));
+								cntWave._add(this.newSideButton(TABS.RES.IMG.Arrows.Right, this.tr("Shifts units one space right."), this.onClick_btnShift, "r", i));
 							}
-							cntWave._removeAll();
-							cntWave._setLayout(new qx.ui.layout.HBox());
-							cntWave._add(this.newSideButton(TABS.RES.IMG.Flip.H, this.tr("Mirrors units horizontally."), this.onClick_btnMirror, "h", i));
-							cntWave._add(new qx.ui.core.Spacer(), {
-								flex : 1
-							});
-							cntWave._add(this.newSideButton(TABS.RES.IMG.Arrows.Left, this.tr("Shifts units one space left."), this.onClick_btnShift, "l", i));
-							cntWave._add(this.newSideButton(TABS.RES.IMG.Arrows.Right, this.tr("Shifts units one space right."), this.onClick_btnShift, "r", i));
 						}
 
 						// Mirror and Shift Buttons top
