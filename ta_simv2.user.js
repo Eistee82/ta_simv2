@@ -2,7 +2,7 @@
 // @name            Tiberium Alliances Battle Simulator V2
 // @description     Allows you to simulate combat before actually attacking.
 // @author          Eistee & TheStriker & VisiG & Lobotommi
-// @version         15.12.09
+// @version         15.12.13
 // @namespace       https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @include         https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @icon            http://eistee82.github.io/ta_simv2/icon.png
@@ -2610,7 +2610,12 @@
 						var i,
 							cntWave;
 						for (i = 0; i < ClientLib.Base.Util.get_ArmyMaxSlotCountY(); i++) {
-							cntWave = this.ArmySetupAttackBar.getMainContainer().getChildren()[(i + 4)];
+						
+							if (PerforceChangelist >= 441469) { // 15.4 patch
+								cntWave = this.ArmySetupAttackBar.getMainContainer().getChildren()[(i + 3)];
+							} else { //old
+								   cntWave = this.ArmySetupAttackBar.getMainContainer().getChildren()[(i + 4)];
+							}
 							cntWave._removeAll();
 							cntWave._setLayout(new qx.ui.layout.HBox());
 							cntWave._add(this.newSideButton(TABS.RES.IMG.Flip.H, this.tr("Mirrors units horizontally."), this.onClick_btnMirror, "h", i));
@@ -2619,6 +2624,7 @@
 							});
 							cntWave._add(this.newSideButton(TABS.RES.IMG.Arrows.Left, this.tr("Shifts units one space left."), this.onClick_btnShift, "l", i));
 							cntWave._add(this.newSideButton(TABS.RES.IMG.Arrows.Right, this.tr("Shifts units one space right."), this.onClick_btnShift, "r", i));
+							
 						}
 
 						// Mirror and Shift Buttons top
@@ -2632,7 +2638,7 @@
 						btnHBoxouter.add(new qx.ui.core.Spacer(), {
 							flex : 1
 						});
-						this.ArmySetupAttackBar.add(btnHBoxouter, {
+						this.ArmySetupAttackBar.addAt(btnHBoxouter, 2, {
 							left : 16,
 							top : 7,
 							right : 0
