@@ -2643,10 +2643,8 @@
 							top : 2,
 							right : 0
 						});
-                        var formationContainer = this.ArmySetupAttackBar.getMainContainer().getChildren();
-                        for (i = 0; i < formationContainer.length; i++) {
-                             formationContainer[i].setMarginTop(formationContainer[i].getMarginTop() +20);
-                        }
+                        var formationContainer = this.ArmySetupAttackBar.getMainContainer();
+                        formationContainer.setMarginTop(formationContainer.getMarginTop() + 20);
 						
 						formation.bind("changeWidth", btnHBox, "width");
 
