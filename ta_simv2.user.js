@@ -2638,11 +2638,14 @@
 						btnHBoxouter.add(new qx.ui.core.Spacer(), {
 							flex : 1
 						});
-						this.ArmySetupAttackBar.addAt(btnHBoxouter, 2, {
+						this.ArmySetupAttackBar.getChildren()[2].addAt(btnHBoxouter, 0, {
 							left : 16,
-							top : 7,
+							top : 2,
 							right : 0
 						});
+                        var formationContainer = this.ArmySetupAttackBar.getMainContainer();
+                        formationContainer.setMarginTop(formationContainer.getMarginTop() + 20);
+						
 						formation.bind("changeWidth", btnHBox, "width");
 
 						for (i = 0; i < ClientLib.Base.Util.get_ArmyMaxSlotCountX(); i++) {
