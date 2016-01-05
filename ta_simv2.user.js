@@ -3061,11 +3061,19 @@
 					btnBack : null,
 					btnSkip : null,
 					onClick_btnBack : function () {
-						var city = ClientLib.Data.MainData.GetInstance().get_Cities().get_CurrentCity();
-						if (city !== null) {
-							qx.core.Init.getApplication().getPlayArea().setView(ClientLib.Data.PlayerAreaViewMode.pavmCombatSetupDefense, city.get_Id(), 0, 0);
-							ClientLib.Vis.VisMain.GetInstance().get_CombatSetup().SetPosition(0, qx.core.Init.getApplication().getPlayArea().getHUD().getCombatSetupOffset(ClientLib.Vis.CombatSetup.CombatSetupViewMode.Defense));
-						}
+						try {
+                        				var city = ClientLib.Data.MainData.GetInstance().get_Cities().get_CurrentCity();
+			                            	if (city !== null) {
+				                           	qx.core.Init.getApplication().getPlayArea().setView(ClientLib.Data.PlayerAreaViewMode.pavmCombatSetupDefense, city.get_Id(), 0, 0);
+				                           	ClientLib.Vis.VisMain.GetInstance().get_CombatSetup().SetPosition(0, qx.core.Init.getApplication().getPlayArea().getHUD().getCombatSetupOffset(ClientLib.Vis.CombatSetup.CombatSetupViewMode.Defense));
+				                    	}
+				                }
+				                catch(e)
+				                {
+				                        console.group("Tiberium Alliances Battle Simulator V2");
+				                        console.error("Error onClick_btnBack", e);
+				                        console.groupEnd();
+				                }
 					},
 					onClick_btnSkip : function () {
 						if (ClientLib.Vis.VisMain.GetInstance().get_Battleground().get_Simulation !== undefined && ClientLib.Vis.VisMain.GetInstance().get_Battleground().get_Simulation().DoStep !== undefined) {
