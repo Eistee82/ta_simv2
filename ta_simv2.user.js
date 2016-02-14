@@ -2,7 +2,7 @@
 // @name            Tiberium Alliances Battle Simulator V2
 // @description     Allows you to simulate combat before actually attacking.
 // @author          Eistee & TheStriker & VisiG & Lobotommi
-// @version         16.01.05
+// @version         16.02.15.00
 // @namespace       https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @include         https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @icon            http://eistee82.github.io/ta_simv2/icon.png
@@ -647,8 +647,8 @@
 									break;
 								}
 
-								unitHealthPoints.setMax(Math.max(unitMaxHealthPoints, buildings[i].h * 16));
-								unitHealthPoints.setStart(buildings[i].h * 16);
+								unitHealthPoints.setMax(sim[buildings[i].ci].mh);
+								unitHealthPoints.setStart(sim[buildings[i].ci].h)
 								unitHealthPoints.setEnd(sim[buildings[i].ci].h);
 								unitRepairCosts = this.get_RepairCosts(buildings[i].i, buildings[i].l, unitHealthPoints);
 
