@@ -641,14 +641,16 @@
 								case ClientLib.Base.EFactionType.GDIFaction:
 								case ClientLib.Base.EFactionType.NODFaction:
 									unitMaxHealthPoints = this.get_UnitMaxHealthByLevel(buildings[i].l, unit, true, data.d.dm);
+                                    				unitHealthPoints.setMax(sim[buildings[i].ci].mh);
+                                					unitHealthPoints.setStart(sim[buildings[i].ci].h);
 									break;
 								default:
 									unitMaxHealthPoints = this.get_UnitMaxHealthByLevel(buildings[i].l, unit, false, data.d.dm);
+                                    					unitHealthPoints.setMax(Math.max(unitMaxHealthPoints, buildings[i].h * 16));
+                                    					unitHealthPoints.setStart(buildings[i].h * 16);
 									break;
 								}
 
-								unitHealthPoints.setMax(sim[buildings[i].ci].mh);
-								unitHealthPoints.setStart(sim[buildings[i].ci].h)
 								unitHealthPoints.setEnd(sim[buildings[i].ci].h);
 								unitRepairCosts = this.get_RepairCosts(buildings[i].i, buildings[i].l, unitHealthPoints);
 
