@@ -392,8 +392,8 @@
 						var cache = TABS.CACHE.getInstance().check(this.Get());
 						return (cache.result !== null);
 					},
-					Mirror : function(a, b, c) {
-						 switch(b) {
+					Mirror : function(formation, pos, sel) {
+						switch(pos) {
 							case "h":
 							break;
 							case "v":
@@ -402,102 +402,142 @@
 							break;
 							default:
 							return;
+						}
+							
+						/*for (var i = 0; i < formation.length; i++) {
+							if ((sel === null || formation[i].y == sel) && pos == "h")
+								formation[i].x = Math.abs(formation[i].x - ClientLib.Base.Util.get_ArmyMaxSlotCountX() + 1);
+
+							if ((sel === null || formation[i].x == sel) && pos == "v")
+								formation[i].y = Math.abs(formation[i].y - ClientLib.Base.Util.get_ArmyMaxSlotCountY() + 1);
+						}
+						return formation;*/
+
+							
+						for (var d = 0;d < formation.length;d++) {
+							if(sel !== null && formation[d].y != sel || pos != "h" )
+							{
+								formation[d].x = Math.abs(formation[d].x - ClientLib.Base.Util.get_ArmyMaxSlotCountX() + 1);
 							}
-							for (var d = 0;d < a.length;d++) {
-							  null !== c && a[d].y != c || "h" != b || (a[d].x = Math.abs(a[d].x - ClientLib.Base.Util.get_ArmyMaxSlotCountX() + 1)), null !== c && a[d].x != c || "v" != b || (a[d].y = Math.abs(a[d].y - ClientLib.Base.Util.get_ArmyMaxSlotCountY() + 1)), null !== c && a[d].y != c || "c" != b || (a[d].y = Math.abs(a[d].y - 5));
+							
+							if(sel !== null && formation[d].x != sel || pos != "v")
+							{
+								formation[d].y = Math.abs(formation[d].y - ClientLib.Base.Util.get_ArmyMaxSlotCountY() + 1);
 							}
-							return a;
+							
+							if(sel !== null && formation[d].y != sel || pos != "c" )
+							{
+								formation[d].y = Math.abs(formation[d].y - 5);
+							}
+						}
+						return formation;
 					},
-					Shiftz : function (a, b, c) {
-						var d = 0,
-						e = 0;
-						    switch (b) {
-							case "z":
-							    d = 2;
-							    break;
-							case "k":
-							    d = 1;
-							    break;
-							case "l":
-							    e = -1;
-							    break;
-							case "r":
-							    e = 1;
-							    break;
-							default:
-							    return;
-						    }
-						    for (var f = 0; f < a.length; f++) {
-							null !== c && a[f].y !== c || "l" != b && "r" != b || (a[f].x += e);
-							null !== c && a[f].x !== c || "z" != b && "k" != b || (a[f].y += d);
-							 switch(a[f].x) {
-							    case ClientLib.Base.Util.get_ArmyMaxSlotCountX():
-							      a[f].x = 0;
-							      break;
-							    case -1:
-							      a[f].x = 8;
-							  }
-							  
-							  switch(a[f].y) {
-							    case 2:
-								 a[f].y = 0;
-								  break;
-								case 3:
-								a[f].y = 2;
-								  break;
+					Shiftz : function (formation, pos, sel) {
+						var v_shift = 0,
+						h_shift = 0;
+						
+						switch (pos) {
+						case "z":
+							v_shift = 2;
+							break;
+						case "k":
+							v_shift = 1;
+							break;
+						case "l":
+							h_shift = -1;
+							break;
+						case "r":
+							h_shift = 1;
+							break;
+						default:
+							return;
+						}
+						for (var f = 0; f < formation.length; f++) {
+							if(sel !== null && formation[f].y !== sel || pos != "l" && pos != "r")
+							{
+								formation[f].x += h_shift;
+							}
+							if(sel !== null && formation[f].x !== sel || pos != "z" && pos != "k")
+							{
+								formation[f].y += v_shift;
+							}
+						 
+							switch(formation[f].x) {
+								case ClientLib.Base.Util.get_ArmyMaxSlotCountX():
+									formation[f].x = 0;
+									break;
 								case -1:
-							       a[f].y = 3;
+									formation[f].x = 8;
+									break;
+							}
+						  
+							switch(formation[f].y) {
+								case 2:
+									formation[f].y = 0;
+									break;
+								case 3:
+									formation[f].y = 2;
+									break;
+								case -1:
+									formation[f].y = 3;
+									break;
 								case 4:
-								 a[f].y = 1;
-								 
-							    
-							  }
-						    }
-						return a;
-					},
-					Shifts:function(a, b, c) {
-						var d = 0,
-						e = 0;
-							switch(b) {
-							  case "z":
-							    d = 2;
-							    break;
-							  case "k":
-							    d = 1;
-							    break;
-							  case "l":
-							    e = -1;
-							    break;
-							  case "r":
-							    e = 1;
-							    break;
-							  default:
-							    return;
+									formation[f].y = 1;
+									break;
+															
 							}
-							for (var f = 0;f < a.length;f++) {
-							  null !== c && a[f].y !== c || "l" != b && "r" != b || (a[f].x += e);
-							  null !== c && a[f].x !== c || "z" != b && "k" != b || (a[f].y += d);
-							  switch(a[f].x) {
-							    case ClientLib.Base.Util.get_ArmyMaxSlotCountX():
-							      a[f].x = 0;
-							      break;
-							    case -1:
-							      a[f].x = 8;
-							  }
-							  
-							  switch(a[f].y) {
-							    case 2:
-								 a[f].y = 0;
-								  break;
-								case 3:
-								a[f].y = 2;
+						}
+						return formation;
+					},
+					Shifts:function(formation, pos, sel) {
+						var v_shift = 0,
+						h_shift = 0;
+						switch(pos) {
+						  case "z":
+							v_shift = 2;
+							break;
+						  case "k":
+							v_shift = 1;
+							break;
+						  case "l":
+							h_shift = -1;
+							break;
+						  case "r":
+							h_shift = 1;
+							break;
+						  default:
+							return;
+						}
+						for (var f = 0;f < formation.length;f++) {
+							if(sel !== null && formation[f].y !== sel || pos != "l" && pos != "r")
+							{
+								formation[f].x += h_shift;
+							}
+							if(sel !== null && formation[f].x !== sel || pos != "z" && pos != "k")
+							{
+								formation[f].y += v_shift;
+							}
+							switch(formation[f].x) {
+								case ClientLib.Base.Util.get_ArmyMaxSlotCountX():
+								  formation[f].x = 0;
 								  break;
 								case -1:
-							       a[f].y = 3;
-							    
-							  }
+								  formation[f].x = 8;
 							}
-							return a;
+							  
+							 switch(formation[f].y) {
+								case 2:
+								 formation[f].y = 0;
+								  break;
+								case 3:
+								formation[f].y = 2;
+								  break;
+								case -1:
+								   formation[f].y = 3;
+							    
+							}
+						}
+						return formation;
 					},
 					Shift : function (formation, pos, sel) {
 						var v_shift = 0,
@@ -712,9 +752,9 @@
 								unitMaxHealthPoints,
 								i;
 
-							function addObject(a, b) {
+							function addObject(a, pos) {
 								for (var i in a)
-									a[i] += b[i];
+									a[i] += pos[i];
 								return a;
 							}
 
