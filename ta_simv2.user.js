@@ -2,7 +2,7 @@
 // @name            Tiberium Alliances Battle Simulator V2
 // @description     Allows you to simulate combat before actually attacking.
 // @author          Eistee & TheStriker & VisiG & Lobotommi & XDaast
-// @version         16.02.23.01
+// @version         16.02.23.02
 // @namespace       https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @include         https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @icon            http://eistee82.github.io/ta_simv2/icon.png
@@ -392,26 +392,21 @@
 						var cache = TABS.CACHE.getInstance().check(this.Get());
 						return (cache.result !== null);
 					},
-					Mirror : function(formation, pos, sel) {
-						switch(pos) {
-							case "h":
+					Mirror : function (formation, pos, sel) {
+						switch (pos) {
+						case "h":
+						case "v":
 							break;
-							case "v":
-							break;
-							default:
+						default:
 							return;
 						}
-							
-						for (var d = 0;d < formation.length;d++) {
-							if(sel === null || formation[d].y == sel && pos == "h" )
-							{
-								formation[d].x = Math.abs(formation[d].x - ClientLib.Base.Util.get_ArmyMaxSlotCountX() + 1);
-							}
-							
-							if(sel === null || formation[d].x == sel && pos == "v")
-							{
-								formation[d].y = Math.abs(formation[d].y - ClientLib.Base.Util.get_ArmyMaxSlotCountY() + 1);
-							}
+
+						for (var i = 0; i < formation.length; i++) {
+							if ((sel === null || formation[i].y == sel) && pos == "h")
+								formation[i].x = Math.abs(formation[i].x - ClientLib.Base.Util.get_ArmyMaxSlotCountX() + 1);
+
+							if ((sel === null || formation[i].x == sel) && pos == "v")
+								formation[i].y = Math.abs(formation[i].y - ClientLib.Base.Util.get_ArmyMaxSlotCountY() + 1);
 						}
 						return formation;
 					},
