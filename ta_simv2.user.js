@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name            Tiberium Alliances Battle Simulator V2
 // @description     Allows you to simulate combat before actually attacking.
-// @author          Eistee & TheStriker & VisiG & Lobotommi
-// @version         16.02.15.02
+// @author          Eistee & TheStriker & VisiG & Lobotommi & XDaast
+// @version         16.02.15.03
 // @namespace       https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @include         https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @icon            http://eistee82.github.io/ta_simv2/icon.png
@@ -111,7 +111,10 @@
 						Transfer : "FactionUI/icons/icon_transfer_resource.png"
 					},
 					Simulate : "FactionUI/icons/icon_attack_simulate_combat.png",
-					CNCOpt : "http://cncopt.com/favicon.ico"
+					CNCOpt : "http://cncopt.com/favicon.ico",
+					one:"https://www.openmerchantaccount.com/img/swap1_2.png",
+					two:"https://www.openmerchantaccount.com/img/swap2_3.png",
+					three:"https://www.openmerchantaccount.com/img/swap3_4.png"
 				}
 			});
 			qx.Class.define("TABS.SETTINGS", {							// [static]		Settings
@@ -389,24 +392,112 @@
 						var cache = TABS.CACHE.getInstance().check(this.Get());
 						return (cache.result !== null);
 					},
-					Mirror : function (formation, pos, sel) {
-						switch (pos) {
-						case "h":
-						case "v":
-							break;
-						default:
-							return;
-						}
-
-						for (var i = 0; i < formation.length; i++) {
-							if ((sel === null || formation[i].y == sel) && pos == "h")
-								formation[i].x = Math.abs(formation[i].x - ClientLib.Base.Util.get_ArmyMaxSlotCountX() + 1);
-
-							if ((sel === null || formation[i].x == sel) && pos == "v")
-								formation[i].y = Math.abs(formation[i].y - ClientLib.Base.Util.get_ArmyMaxSlotCountY() + 1);
-						}
-						return formation;
-					},
+					Mirror:function(a, b, c) {
+        switch(b) {
+          case "h":
+          break;
+          case "v":
+            break;
+          case "c":
+            break;
+          default:
+            return;
+        }
+        for (var d = 0;d < a.length;d++) {
+          null !== c && a[d].y != c || "h" != b || (a[d].x = Math.abs(a[d].x - ClientLib.Base.Util.get_ArmyMaxSlotCountX() + 1)), null !== c && a[d].x != c || "v" != b || (a[d].y = Math.abs(a[d].y - ClientLib.Base.Util.get_ArmyMaxSlotCountY() + 1)), null !== c && a[d].y != c || "c" != b || (a[d].y = Math.abs(a[d].y - 5));
+        }
+        return a;
+      },
+					Shiftz : function (a, b, c) {
+						var d = 0,
+						e = 0;
+    switch (b) {
+        case "z":
+            d = 2;
+            break;
+        case "k":
+            d = 1;
+            break;
+        case "l":
+            e = -1;
+            break;
+        case "r":
+            e = 1;
+            break;
+        default:
+            return;
+    }
+    for (var f = 0; f < a.length; f++) {
+        null !== c && a[f].y !== c || "l" != b && "r" != b || (a[f].x += e);
+        null !== c && a[f].x !== c || "z" != b && "k" != b || (a[f].y += d);
+         switch(a[f].x) {
+            case ClientLib.Base.Util.get_ArmyMaxSlotCountX():
+              a[f].x = 0;
+              break;
+            case -1:
+              a[f].x = 8;
+          }
+          
+          switch(a[f].y) {
+            case 2:
+                 a[f].y = 0;
+                  break;
+                case 3:
+                a[f].y = 2;
+                  break;
+                case -1:
+               a[f].y = 3;
+                case 4:
+                 a[f].y = 1;
+                 
+            
+          }
+    }
+return a;
+},
+Shifts:function(a, b, c) {
+        var d = 0, e = 0;
+        switch(b) {
+          case "z":
+            d = 2;
+            break;
+          case "k":
+            d = 1;
+            break;
+          case "l":
+            e = -1;
+            break;
+          case "r":
+            e = 1;
+            break;
+          default:
+            return;
+        }
+        for (var f = 0;f < a.length;f++) {
+          null !== c && a[f].y !== c || "l" != b && "r" != b || (a[f].x += e);
+          null !== c && a[f].x !== c || "z" != b && "k" != b || (a[f].y += d);
+          switch(a[f].x) {
+            case ClientLib.Base.Util.get_ArmyMaxSlotCountX():
+              a[f].x = 0;
+              break;
+            case -1:
+              a[f].x = 8;
+          }
+          
+          switch(a[f].y) {
+            case 2:
+                 a[f].y = 0;
+                  break;
+                case 3:
+                a[f].y = 2;
+                  break;
+                case -1:
+               a[f].y = 3;
+            
+          }
+        }
+        return a;
+      },
 					Shift : function (formation, pos, sel) {
 						var v_shift = 0,
 							h_shift = 0;
@@ -2848,7 +2939,18 @@
 							row : 3,
 							column : 2
 						});
-
+						this.boxMove.add(this.newButton(TABS.RES.IMG.one, this.tr("Swaps lines 1 & 2."), this.onClick_btnShifts, "k", null), {
+							row:4,
+							column:0
+						});
+						this.boxMove.add(this.newButton(TABS.RES.IMG.two, this.tr("Swaps lines 2 & 3."), this.onClick_btnShiftz, "z", null), {
+							row:4,
+							column:1
+						});
+						this.boxMove.add(this.newButton(TABS.RES.IMG.three, this.tr("Swaps lines 3 & 4."), this.onClick_btnMirror, "c", null), {
+							row:4,
+							column:2
+						});
 						this.PlayArea.add(this.boxMove, {
 							left : 65,
 							bottom : 67
@@ -3013,6 +3115,16 @@
 					onClick_btnShift : function (e) {
 						var formation = TABS.UTIL.Formation.Get();
 						formation = TABS.UTIL.Formation.Shift(formation, e.getTarget().getModel()[0], e.getTarget().getModel()[1]);
+						TABS.UTIL.Formation.Set(formation);
+					},
+					onClick_btnShifts : function (e) {
+						var formation = TABS.UTIL.Formation.Get(),
+						formation = TABS.UTIL.Formation.Shifts(formation, e.getTarget().getModel()[0], e.getTarget().getModel()[1]);
+						TABS.UTIL.Formation.Set(formation);
+					},
+					onClick_btnShiftz : function (e) {
+						var formation = TABS.UTIL.Formation.Get(),
+						formation = TABS.UTIL.Formation.Shiftz(formation, e.getTarget().getModel()[0], e.getTarget().getModel()[1]);
 						TABS.UTIL.Formation.Set(formation);
 					},
 					onClick_btnDisable : function (e) {
