@@ -752,9 +752,9 @@
 								unitMaxHealthPoints,
 								i;
 
-							function addObject(a, pos) {
+							function addObject(a, b) {
 								for (var i in a)
-									a[i] += pos[i];
+									a[i] += b[i];
 								return a;
 							}
 
