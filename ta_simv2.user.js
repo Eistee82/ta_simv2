@@ -415,17 +415,17 @@
 
 							
 						for (var d = 0;d < formation.length;d++) {
-							if(sel !== null && formation[d].y != sel || pos != "h" )
+							if(sel === null || formation[d].y == sel && pos == "h" )
 							{
 								formation[d].x = Math.abs(formation[d].x - ClientLib.Base.Util.get_ArmyMaxSlotCountX() + 1);
 							}
 							
-							if(sel !== null && formation[d].x != sel || pos != "v")
+							if(sel === null || formation[d].x == sel && pos == "v")
 							{
 								formation[d].y = Math.abs(formation[d].y - ClientLib.Base.Util.get_ArmyMaxSlotCountY() + 1);
 							}
 							
-							if(sel !== null && formation[d].y != sel || pos != "c" )
+							if(sel === null || formation[d].y == sel && pos == "c" )
 							{
 								formation[d].y = Math.abs(formation[d].y - 5);
 							}
@@ -453,11 +453,11 @@
 							return;
 						}
 						for (var f = 0; f < formation.length; f++) {
-							if(sel !== null && formation[f].y !== sel || pos != "l" && pos != "r")
+							if(sel === null || formation[f].y === sel && pos == "l" || pos == "r")
 							{
 								formation[f].x += h_shift;
 							}
-							if(sel !== null && formation[f].x !== sel || pos != "z" && pos != "k")
+							if(sel === null || formation[f].x === sel && pos == "z" || pos == "k")
 							{
 								formation[f].y += v_shift;
 							}
@@ -509,11 +509,11 @@
 							return;
 						}
 						for (var f = 0;f < formation.length;f++) {
-							if(sel !== null && formation[f].y !== sel || pos != "l" && pos != "r")
+							if(sel === null || formation[f].y === sel && pos == "l" || pos == "r")
 							{
 								formation[f].x += h_shift;
 							}
-							if(sel !== null && formation[f].x !== sel || pos != "z" && pos != "k")
+							if(sel === null || formation[f].x === sel && pos == "z" || pos == "k")
 							{
 								formation[f].y += v_shift;
 							}
