@@ -398,21 +398,9 @@
 							break;
 							case "v":
 							break;
-							case "c":
-							break;
 							default:
 							return;
 						}
-							
-						/*for (var i = 0; i < formation.length; i++) {
-							if ((sel === null || formation[i].y == sel) && pos == "h")
-								formation[i].x = Math.abs(formation[i].x - ClientLib.Base.Util.get_ArmyMaxSlotCountX() + 1);
-
-							if ((sel === null || formation[i].x == sel) && pos == "v")
-								formation[i].y = Math.abs(formation[i].y - ClientLib.Base.Util.get_ArmyMaxSlotCountY() + 1);
-						}
-						return formation;*/
-
 							
 						for (var d = 0;d < formation.length;d++) {
 							if(sel === null || formation[d].y == sel && pos == "h" )
@@ -424,117 +412,21 @@
 							{
 								formation[d].y = Math.abs(formation[d].y - ClientLib.Base.Util.get_ArmyMaxSlotCountY() + 1);
 							}
-							
-							if(sel === null || formation[d].y == sel && pos == "c" )
-							{
-								formation[d].y = Math.abs(formation[d].y - 5);
-							}
 						}
 						return formation;
 					},
-					Shiftz : function (formation, pos, sel) {
-						var v_shift = 0,
-						h_shift = 0;
-						
-						switch (pos) {
-						case "z":
-							v_shift = 2;
-							break;
-						case "k":
-							v_shift = 1;
-							break;
-						case "l":
-							h_shift = -1;
-							break;
-						case "r":
-							h_shift = 1;
-							break;
-						default:
-							return;
-						}
-						for (var f = 0; f < formation.length; f++) {
-							if(sel === null || formation[f].y === sel && pos == "l" || pos == "r")
-							{
-								formation[f].x += h_shift;
-							}
-							if(sel === null || formation[f].x === sel && pos == "z" || pos == "k")
-							{
-								formation[f].y += v_shift;
-							}
-						 
-							switch(formation[f].x) {
-								case ClientLib.Base.Util.get_ArmyMaxSlotCountX():
-									formation[f].x = 0;
-									break;
-								case -1:
-									formation[f].x = 8;
-									break;
-							}
-						  
-							switch(formation[f].y) {
-								case 2:
-									formation[f].y = 0;
-									break;
-								case 3:
-									formation[f].y = 2;
-									break;
-								case -1:
-									formation[f].y = 3;
-									break;
-								case 4:
-									formation[f].y = 1;
-									break;
-															
-							}
-						}
-						return formation;
-					},
-					Shifts:function(formation, pos, sel) {
-						var v_shift = 0,
-						h_shift = 0;
-						switch(pos) {
-						  case "z":
-							v_shift = 2;
-							break;
-						  case "k":
-							v_shift = 1;
-							break;
-						  case "l":
-							h_shift = -1;
-							break;
-						  case "r":
-							h_shift = 1;
-							break;
-						  default:
-							return;
-						}
+					SwapLines:function(formation, lineA, lineB) {
+						lineAZoroBasedIndex = lineA - 1;
+						lineBZeroBasedIndex = lineB - 1;
 						for (var f = 0;f < formation.length;f++) {
-							if(sel === null || formation[f].y === sel && pos == "l" || pos == "r")
-							{
-								formation[f].x += h_shift;
-							}
-							if(sel === null || formation[f].x === sel && pos == "z" || pos == "k")
-							{
-								formation[f].y += v_shift;
-							}
-							switch(formation[f].x) {
-								case ClientLib.Base.Util.get_ArmyMaxSlotCountX():
-								  formation[f].x = 0;
-								  break;
-								case -1:
-								  formation[f].x = 8;
-							}
 							  
 							 switch(formation[f].y) {
-								case 2:
-								 formation[f].y = 0;
-								  break;
-								case 3:
-								formation[f].y = 2;
-								  break;
-								case -1:
-								   formation[f].y = 3;
-							    
+								case lineAZoroBasedIndex:
+									formation[f].y = lineBZeroBasedIndex;
+									break;
+								case lineBZeroBasedIndex:
+									formation[f].y = lineAZoroBasedIndex;
+									break;							    
 							}
 						}
 						return formation;
@@ -2980,15 +2872,15 @@
 							row : 3,
 							column : 2
 						});
-						this.boxMove.add(this.newButton(TABS.RES.IMG.one, this.tr("Swaps lines 1 & 2."), this.onClick_btnShifts, "k", null), {
+						this.boxMove.add(this.newButton(TABS.RES.IMG.one, this.tr("Swaps lines 1 & 2."), this.onClick_btnSwap_1_2, "k", null), {
 							row:4,
 							column:0
 						});
-						this.boxMove.add(this.newButton(TABS.RES.IMG.two, this.tr("Swaps lines 2 & 3."), this.onClick_btnShiftz, "z", null), {
+						this.boxMove.add(this.newButton(TABS.RES.IMG.two, this.tr("Swaps lines 2 & 3."), this.onClick_btnSwap_2_3, "z", null), {
 							row:4,
 							column:1
 						});
-						this.boxMove.add(this.newButton(TABS.RES.IMG.three, this.tr("Swaps lines 3 & 4."), this.onClick_btnMirror, "c", null), {
+						this.boxMove.add(this.newButton(TABS.RES.IMG.three, this.tr("Swaps lines 3 & 4."), this.onClick_btnSwap_3_4, "c", null), {
 							row:4,
 							column:2
 						});
@@ -3158,14 +3050,19 @@
 						formation = TABS.UTIL.Formation.Shift(formation, e.getTarget().getModel()[0], e.getTarget().getModel()[1]);
 						TABS.UTIL.Formation.Set(formation);
 					},
-					onClick_btnShifts : function (e) {
+					onClick_btnSwap_1_2 : function (e) {
 						var formation = TABS.UTIL.Formation.Get(),
-						formation = TABS.UTIL.Formation.Shifts(formation, e.getTarget().getModel()[0], e.getTarget().getModel()[1]);
+						formation = TABS.UTIL.Formation.SwapLines(formation, 1, 2);
 						TABS.UTIL.Formation.Set(formation);
 					},
-					onClick_btnShiftz : function (e) {
+					onClick_btnSwap_2_3 : function (e) {
 						var formation = TABS.UTIL.Formation.Get(),
-						formation = TABS.UTIL.Formation.Shiftz(formation, e.getTarget().getModel()[0], e.getTarget().getModel()[1]);
+						formation = TABS.UTIL.Formation.SwapLines(formation, 2, 3);
+						TABS.UTIL.Formation.Set(formation);
+					},
+					onClick_btnSwap_3_4 : function (e) {
+						var formation = TABS.UTIL.Formation.Get(),
+						formation = TABS.UTIL.Formation.SwapLines(formation, 3, 4);
 						TABS.UTIL.Formation.Set(formation);
 					},
 					onClick_btnDisable : function (e) {
