@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name            Tiberium Alliances Battle Simulator V2
 // @description     Allows you to simulate combat before actually attacking.
-// @author          Eistee & TheStriker & VisiG & Lobotommi
-// @version         16.02.15.02
+// @author          Eistee & TheStriker & VisiG & Lobotommi & XDaast
+// @version         16.02.15.03
 // @namespace       https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @include         https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @icon            http://eistee82.github.io/ta_simv2/icon.png
@@ -111,7 +111,10 @@
 						Transfer : "FactionUI/icons/icon_transfer_resource.png"
 					},
 					Simulate : "FactionUI/icons/icon_attack_simulate_combat.png",
-					CNCOpt : "http://cncopt.com/favicon.ico"
+					CNCOpt : "http://cncopt.com/favicon.ico",
+					one:"https://www.openmerchantaccount.com/img/swap1_2.png",
+					two:"https://www.openmerchantaccount.com/img/swap2_3.png",
+					three:"https://www.openmerchantaccount.com/img/swap3_4.png"
 				}
 			});
 			qx.Class.define("TABS.SETTINGS", {							// [static]		Settings
@@ -389,21 +392,42 @@
 						var cache = TABS.CACHE.getInstance().check(this.Get());
 						return (cache.result !== null);
 					},
-					Mirror : function (formation, pos, sel) {
-						switch (pos) {
-						case "h":
-						case "v":
+					Mirror : function(formation, pos, sel) {
+						switch(pos) {
+							case "h":
 							break;
-						default:
+							case "v":
+							break;
+							default:
 							return;
 						}
-
-						for (var i = 0; i < formation.length; i++) {
-							if ((sel === null || formation[i].y == sel) && pos == "h")
-								formation[i].x = Math.abs(formation[i].x - ClientLib.Base.Util.get_ArmyMaxSlotCountX() + 1);
-
-							if ((sel === null || formation[i].x == sel) && pos == "v")
-								formation[i].y = Math.abs(formation[i].y - ClientLib.Base.Util.get_ArmyMaxSlotCountY() + 1);
+							
+						for (var d = 0;d < formation.length;d++) {
+							if(sel === null || formation[d].y == sel && pos == "h" )
+							{
+								formation[d].x = Math.abs(formation[d].x - ClientLib.Base.Util.get_ArmyMaxSlotCountX() + 1);
+							}
+							
+							if(sel === null || formation[d].x == sel && pos == "v")
+							{
+								formation[d].y = Math.abs(formation[d].y - ClientLib.Base.Util.get_ArmyMaxSlotCountY() + 1);
+							}
+						}
+						return formation;
+					},
+					SwapLines:function(formation, lineA, lineB) {
+						lineAZoroBasedIndex = lineA - 1;
+						lineBZeroBasedIndex = lineB - 1;
+						for (var f = 0;f < formation.length;f++) {
+							  
+							 switch(formation[f].y) {
+								case lineAZoroBasedIndex:
+									formation[f].y = lineBZeroBasedIndex;
+									break;
+								case lineBZeroBasedIndex:
+									formation[f].y = lineAZoroBasedIndex;
+									break;							    
+							}
 						}
 						return formation;
 					},
@@ -2848,7 +2872,18 @@
 							row : 3,
 							column : 2
 						});
-
+						this.boxMove.add(this.newButton(TABS.RES.IMG.one, this.tr("Swaps lines 1 & 2."), this.onClick_btnSwap_1_2, "k", null), {
+							row:4,
+							column:0
+						});
+						this.boxMove.add(this.newButton(TABS.RES.IMG.two, this.tr("Swaps lines 2 & 3."), this.onClick_btnSwap_2_3, "z", null), {
+							row:4,
+							column:1
+						});
+						this.boxMove.add(this.newButton(TABS.RES.IMG.three, this.tr("Swaps lines 3 & 4."), this.onClick_btnSwap_3_4, "c", null), {
+							row:4,
+							column:2
+						});
 						this.PlayArea.add(this.boxMove, {
 							left : 65,
 							bottom : 67
@@ -3013,6 +3048,21 @@
 					onClick_btnShift : function (e) {
 						var formation = TABS.UTIL.Formation.Get();
 						formation = TABS.UTIL.Formation.Shift(formation, e.getTarget().getModel()[0], e.getTarget().getModel()[1]);
+						TABS.UTIL.Formation.Set(formation);
+					},
+					onClick_btnSwap_1_2 : function (e) {
+						var formation = TABS.UTIL.Formation.Get(),
+						formation = TABS.UTIL.Formation.SwapLines(formation, 1, 2);
+						TABS.UTIL.Formation.Set(formation);
+					},
+					onClick_btnSwap_2_3 : function (e) {
+						var formation = TABS.UTIL.Formation.Get(),
+						formation = TABS.UTIL.Formation.SwapLines(formation, 2, 3);
+						TABS.UTIL.Formation.Set(formation);
+					},
+					onClick_btnSwap_3_4 : function (e) {
+						var formation = TABS.UTIL.Formation.Get(),
+						formation = TABS.UTIL.Formation.SwapLines(formation, 3, 4);
 						TABS.UTIL.Formation.Set(formation);
 					},
 					onClick_btnDisable : function (e) {
