@@ -2,7 +2,7 @@
 // @name            Tiberium Alliances Battle Simulator V2
 // @description     Allows you to simulate combat before actually attacking.
 // @author          Eistee & TheStriker & VisiG & Lobotommi & XDaast
-// @version         16.02.23.02
+// @version         16.02.24.01
 // @namespace       https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @include         https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @icon            http://eistee82.github.io/ta_simv2/icon.png
@@ -2769,6 +2769,28 @@
 					TABS.addInit("TABS.GUI.ArmySetupAttackBar");
 				}
 			});
+			
+            qx.Class.define("TABS.GUI.MovableBox", {
+                extend : qx.ui.container.Composite,
+                include : qx.ui.core.MMovable,
+                construct : function(layout)
+                {
+                    this.base(arguments);
+                    try
+                    {
+                        this.setLayout(layout);
+                        this._activateMoveHandle(this);
+                        //resizer.setLayout(new qx.ui.layout.HBox());
+                    }
+                    catch(e)
+                    {
+                        console.group("Tiberium Alliances Battle Simulator V2");
+						console.error("Error setting up GUI.MovableBox constructor", e);
+						console.groupEnd();
+                    }
+                }
+            });
+			
 			qx.Class.define("TABS.GUI.PlayArea", {						// [singleton]	View Simulation, Open Stats Window
 				type : "singleton",
 				extend : qx.core.Object,
@@ -2810,14 +2832,16 @@
 						WDG_COMBATSWAPVIEW.getLayoutParent().addAfter(this.btnSimulation, WDG_COMBATSWAPVIEW);
 
 						//Move Box
-						this.boxMove = new qx.ui.container.Composite(new qx.ui.layout.Grid()).set({
-								decorator : "pane-light-plain",
-				                                opacity : 0.7,
-				                                paddingTop : 0,
-				                                paddingLeft : 2,
-				                                paddingRight : 1,
-				                                paddingBottom : 3
-							});
+						this.boxMove = new TABS.GUI.MovableBox(new qx.ui.layout.Grid()).set({
+							decorator : "pane-light-plain",
+				            opacity : 0.7,
+				            paddingTop : 0,
+				            paddingLeft : 2,
+				            paddingRight : 1,
+				            paddingBottom : 3,
+                            allowGrowX : false,
+                            allowGrowY : false,
+						});
 
 						this.boxMove.add(this.newButton(TABS.RES.IMG.Stats, this.tr("Statistic") + " [NUM 7]", this.onClick_btnStats, null, null), {
 							row : 0,
@@ -2880,8 +2904,9 @@
 							column:2
 						});
 						this.PlayArea.add(this.boxMove, {
-							left : 65,
-							bottom : 67
+							//left : 65,
+							right : 7,
+							bottom : 170
 						});
 
 						phe.cnc.Util.attachNetEvent(ClientLib.Vis.VisMain.GetInstance(), "ViewModeChange", ClientLib.Vis.ViewModeChange, this, this._onViewChanged);
