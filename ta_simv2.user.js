@@ -2,7 +2,7 @@
 // @name            Tiberium Alliances Battle Simulator V2
 // @description     Allows you to simulate combat before actually attacking.
 // @author          Eistee & TheStriker & VisiG & Lobotommi & XDaast
-// @version         16.02.25
+// @version         16.02.25.01
 // @namespace       https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @include         https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @icon            http://eistee82.github.io/ta_simv2/icon.png
@@ -2904,9 +2904,11 @@
 							column:2
 						});
 						this.PlayArea.add(this.boxMove, {
+                            top : 400,
+							left : 65
 							//left : 65,
-							right : 7,
-							bottom : 170
+							//right : 7,
+							//bottom : 170
 						});
 
 						phe.cnc.Util.attachNetEvent(ClientLib.Vis.VisMain.GetInstance(), "ViewModeChange", ClientLib.Vis.ViewModeChange, this, this._onViewChanged);
