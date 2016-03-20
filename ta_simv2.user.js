@@ -3529,12 +3529,6 @@
 								decorator : "pane-light-opaque",
                             allowGrowX : true,
                             allowGrowY : true,
-
-                                //borderImageWidth : [ 0 8],
-                            //border-image-width: 9px;
-                            //border-image-slice: 9 fill;
-                            //border-width: 0px 8px;
-
 							}));
                         Header.add(new qx.ui.basic.Label(text).set({
                             paddingLeft : 9,
@@ -3543,22 +3537,6 @@
                             paddingBottom : 2,
 							font : "font_size_13_bold_shadow"
 							}));
-                        
-						/*var Header = new qx.ui.container.Composite(new qx.ui.layout.VBox(5)).set({
-								decorator : "pane-light-opaque",
-                                //borderImageWidth : [ 0 8],
-                            //border-image-width: 9px;
-                            //border-image-slice: 9 fill;
-                            //border-width: 0px 8px;
-
-							});
-						Header.add(new qx.ui.basic.Label(text).set({
-								alignX : "center",
-								alignY : "middle",
-                                marginTop : -1,
-                                marginBottom : -1,
-								font : "font_size_13_bold_shadow"
-							}));*/
 						return Header;
 					},
 					makeSimView : function () {
