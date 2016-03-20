@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name            Tiberium Alliances Battle Simulator V2
 // @description     Allows you to simulate combat before actually attacking.
-// @author          Eistee & TheStriker & VisiG & Lobotommi
-// @version         16.02.15.02
+// @author          Eistee & TheStriker & VisiG & Lobotommi & XDaast
+// @version         16.03.20
 // @namespace       https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @include         https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @icon            http://eistee82.github.io/ta_simv2/icon.png
@@ -111,7 +111,10 @@
 						Transfer : "FactionUI/icons/icon_transfer_resource.png"
 					},
 					Simulate : "FactionUI/icons/icon_attack_simulate_combat.png",
-					CNCOpt : "http://cncopt.com/favicon.ico"
+					CNCOpt : "http://cncopt.com/favicon.ico",
+					one:"https://www.openmerchantaccount.com/img/swap1_2.png",
+					two:"https://www.openmerchantaccount.com/img/swap2_3.png",
+					three:"https://www.openmerchantaccount.com/img/swap3_4.png"
 				}
 			});
 			qx.Class.define("TABS.SETTINGS", {							// [static]		Settings
@@ -404,6 +407,22 @@
 
 							if ((sel === null || formation[i].x == sel) && pos == "v")
 								formation[i].y = Math.abs(formation[i].y - ClientLib.Base.Util.get_ArmyMaxSlotCountY() + 1);
+						}
+						return formation;
+					},
+					SwapLines:function(formation, lineA, lineB) {
+						lineAZoroBasedIndex = lineA - 1;
+						lineBZeroBasedIndex = lineB - 1;
+						for (var f = 0;f < formation.length;f++) {
+							  
+							 switch(formation[f].y) {
+								case lineAZoroBasedIndex:
+									formation[f].y = lineBZeroBasedIndex;
+									break;
+								case lineBZeroBasedIndex:
+									formation[f].y = lineAZoroBasedIndex;
+									break;							    
+							}
 						}
 						return formation;
 					},
@@ -2394,7 +2413,13 @@
 								CurrentCity = ClientLib.Data.MainData.GetInstance().get_Cities().get_CurrentCity();
 							if (CurrentOwnCity !== null && CurrentCity !== null && CurrentCity.CheckInvokeBattle(CurrentOwnCity, true) == ClientLib.Data.EAttackBaseResult.OK) {
 								clearTimeout(this.__Timeout);
-								this.__Timeout = setTimeout(this._reset.bind(this), 10000);
+                                if(PerforceChangelist >= 448942) { // patch 16.2
+                                    this.__Timeout = setTimeout(this._reset.bind(this), 3000);
+                                }
+                                else
+                                {
+                                    this.__Timeout = setTimeout(this._reset.bind(this), 10000);
+                                }
 								this.resetData();
 								this.setLock(true);
 								var formation = TABS.UTIL.Formation.Get(),
@@ -2442,7 +2467,15 @@
 					},
 					_updateTime : function () {
 						clearTimeout(this.__Timeout);
-						var time = this.__TimerStart + 10000 - Date.now();
+                        var time = 0;
+                        if(PerforceChangelist >= 448942) { // patch 16.2
+                            time = this.__TimerStart + 3000 - Date.now();
+                        }
+                        else
+                        {
+                            time = this.__TimerStart + 10000 - Date.now();
+                        }
+                        
 						if (time > 0) {
 							if (time > 100)
 								this.__Timeout = setTimeout(this._updateTime.bind(this), 100);
@@ -2750,6 +2783,28 @@
 					TABS.addInit("TABS.GUI.ArmySetupAttackBar");
 				}
 			});
+			
+            qx.Class.define("TABS.GUI.MovableBox", {
+                extend : qx.ui.container.Composite,
+                include : qx.ui.core.MMovable,
+                construct : function(layout)
+                {
+                    this.base(arguments);
+                    try
+                    {
+                        this.setLayout(layout);
+                        this._activateMoveHandle(this);
+                        //resizer.setLayout(new qx.ui.layout.HBox());
+                    }
+                    catch(e)
+                    {
+                        console.group("Tiberium Alliances Battle Simulator V2");
+						console.error("Error setting up GUI.MovableBox constructor", e);
+						console.groupEnd();
+                    }
+                }
+            });
+			
 			qx.Class.define("TABS.GUI.PlayArea", {						// [singleton]	View Simulation, Open Stats Window
 				type : "singleton",
 				extend : qx.core.Object,
@@ -2791,14 +2846,16 @@
 						WDG_COMBATSWAPVIEW.getLayoutParent().addAfter(this.btnSimulation, WDG_COMBATSWAPVIEW);
 
 						//Move Box
-						this.boxMove = new qx.ui.container.Composite(new qx.ui.layout.Grid()).set({
-								decorator : "pane-light-plain",
-				                                opacity : 0.7,
-				                                paddingTop : 0,
-				                                paddingLeft : 2,
-				                                paddingRight : 1,
-				                                paddingBottom : 3
-							});
+						this.boxMove = new TABS.GUI.MovableBox(new qx.ui.layout.Grid()).set({
+							decorator : "pane-light-plain",
+				            opacity : 0.7,
+				            paddingTop : 0,
+				            paddingLeft : 2,
+				            paddingRight : 1,
+				            paddingBottom : 3,
+                            allowGrowX : false,
+                            allowGrowY : false,
+						});
 
 						this.boxMove.add(this.newButton(TABS.RES.IMG.Stats, this.tr("Statistic") + " [NUM 7]", this.onClick_btnStats, null, null), {
 							row : 0,
@@ -2848,10 +2905,24 @@
 							row : 3,
 							column : 2
 						});
-
+						this.boxMove.add(this.newButton(TABS.RES.IMG.one, this.tr("Swaps lines 1 & 2."), this.onClick_btnSwap_1_2, "k", null), {
+							row:4,
+							column:0
+						});
+						this.boxMove.add(this.newButton(TABS.RES.IMG.two, this.tr("Swaps lines 2 & 3."), this.onClick_btnSwap_2_3, "z", null), {
+							row:4,
+							column:1
+						});
+						this.boxMove.add(this.newButton(TABS.RES.IMG.three, this.tr("Swaps lines 3 & 4."), this.onClick_btnSwap_3_4, "c", null), {
+							row:4,
+							column:2
+						});
 						this.PlayArea.add(this.boxMove, {
-							left : 65,
-							bottom : 67
+                            top : 400,
+							left : 65
+							//left : 65,
+							//right : 7,
+							//bottom : 170
 						});
 
 						phe.cnc.Util.attachNetEvent(ClientLib.Vis.VisMain.GetInstance(), "ViewModeChange", ClientLib.Vis.ViewModeChange, this, this._onViewChanged);
@@ -3015,6 +3086,21 @@
 						formation = TABS.UTIL.Formation.Shift(formation, e.getTarget().getModel()[0], e.getTarget().getModel()[1]);
 						TABS.UTIL.Formation.Set(formation);
 					},
+					onClick_btnSwap_1_2 : function (e) {
+						var formation = TABS.UTIL.Formation.Get(),
+						formation = TABS.UTIL.Formation.SwapLines(formation, 1, 2);
+						TABS.UTIL.Formation.Set(formation);
+					},
+					onClick_btnSwap_2_3 : function (e) {
+						var formation = TABS.UTIL.Formation.Get(),
+						formation = TABS.UTIL.Formation.SwapLines(formation, 2, 3);
+						TABS.UTIL.Formation.Set(formation);
+					},
+					onClick_btnSwap_3_4 : function (e) {
+						var formation = TABS.UTIL.Formation.Get(),
+						formation = TABS.UTIL.Formation.SwapLines(formation, 3, 4);
+						TABS.UTIL.Formation.Set(formation);
+					},
 					onClick_btnDisable : function (e) {
 						var formation = TABS.UTIL.Formation.Get();
 						formation = TABS.UTIL.Formation.toggle_Enabled(formation, e.getTarget().getModel()[0]);
@@ -3166,6 +3252,42 @@
 							alignY : "middle"
 						});
 						this.setStatus("0 " + this.tr("simulations in cache"));
+                        
+                        //Enemy Health Section//
+						this.EnemyHeader = this.makeHeader(this.tr("tnf:combat target"));
+						this.EnemyHeader.addListener("click", function () {
+							if (this.GUI.Enemy.isVisible()) {
+								this.GUI.Enemy.exclude();
+								TABS.SETTINGS.set("GUI.Window.Stats.Enemy.visible", false);
+							} else {
+								this.GUI.Enemy.show();
+								TABS.SETTINGS.set("GUI.Window.Stats.Enemy.visible", true);
+							}
+						}, this);
+
+						//Repair Section//
+						this.RepairHeader = this.makeHeader(this.tr("tnf:own repair cost").replace(":", ""));
+						this.RepairHeader.addListener("click", function () {
+							if (this.GUI.Repair.isVisible()) {
+								this.GUI.Repair.exclude();
+								TABS.SETTINGS.set("GUI.Window.Stats.Repair.visible", false);
+							} else {
+								this.GUI.Repair.show();
+								TABS.SETTINGS.set("GUI.Window.Stats.Repair.visible", true);
+							}
+						}, this);
+
+						//Loot Section//
+						this.LootHeader = this.makeHeader(this.tr("tnf:lootable resources:").replace(":", ""));
+						this.LootHeader.addListener("click", function () {
+							if (this.GUI.Loot.isVisible()) {
+								this.GUI.Loot.exclude();
+								TABS.SETTINGS.set("GUI.Window.Stats.Loot.visible", false);
+							} else {
+								this.GUI.Loot.show();
+								TABS.SETTINGS.set("GUI.Window.Stats.Loot.visible", true);
+							}
+						}, this);
 
 						this.GUI = {
 							Battle : new qx.ui.container.Composite(new qx.ui.layout.HBox(-2)).set({
@@ -3177,18 +3299,21 @@
 							Enemy : new qx.ui.container.Composite(new qx.ui.layout.HBox(-2)).set({
 								decorator : "pane-light-plain",
 								allowGrowX : true,
+                                marginTop : -18,
 								marginLeft : 0,
 								marginRight : 0
 							}),
 							Repair : new qx.ui.container.Composite(new qx.ui.layout.HBox(-2)).set({
 								decorator : "pane-light-plain",
 								allowGrowX : true,
-								marginLeft : 0,
+                                marginTop : -18,
+                                marginLeft : 0,
 								marginRight : 0
 							}),
 							Loot : new qx.ui.container.Composite(new qx.ui.layout.HBox(-2)).set({
 								decorator : "pane-light-plain",
 								allowGrowX : true,
+                                marginTop : -18,
 								marginLeft : 0,
 								marginRight : 0
 							}),
@@ -3210,6 +3335,7 @@
 							Enemy : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
 								padding : 9,
+                                marginTop : 10,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
@@ -3217,6 +3343,7 @@
 							Repair : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
 								padding : 9,
+                                marginTop : 10,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
@@ -3224,6 +3351,7 @@
 							Loot : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
 								padding : 9,
+                                marginTop : 10,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
@@ -3285,43 +3413,6 @@
 								flex : 0
 							});
 						}
-
-						//Enemy Health Section//
-						this.EnemyHeader = this.makeHeader(this.tr("tnf:combat target"));
-						this.EnemyHeader.addListener("click", function () {
-							if (this.GUI.Enemy.isVisible()) {
-								this.GUI.Enemy.exclude();
-								TABS.SETTINGS.set("GUI.Window.Stats.Enemy.visible", false);
-							} else {
-								this.GUI.Enemy.show();
-								TABS.SETTINGS.set("GUI.Window.Stats.Enemy.visible", true);
-							}
-						}, this);
-
-						//Repair Section//
-						this.RepairHeader = this.makeHeader(this.tr("tnf:own repair cost").replace(":", ""));
-						this.RepairHeader.addListener("click", function () {
-							if (this.GUI.Repair.isVisible()) {
-								this.GUI.Repair.exclude();
-								TABS.SETTINGS.set("GUI.Window.Stats.Repair.visible", false);
-							} else {
-								this.GUI.Repair.show();
-								TABS.SETTINGS.set("GUI.Window.Stats.Repair.visible", true);
-							}
-						}, this);
-
-						//Loot Section//
-						this.LootHeader = this.makeHeader(this.tr("tnf:lootable resources:").replace(":", ""));
-						this.LootHeader.addListener("click", function () {
-							if (this.GUI.Loot.isVisible()) {
-								this.GUI.Loot.exclude();
-								TABS.SETTINGS.set("GUI.Window.Stats.Loot.visible", false);
-							} else {
-								this.GUI.Loot.show();
-								TABS.SETTINGS.set("GUI.Window.Stats.Loot.visible", true);
-							}
-						}, this);
-
 						this.add(this.GUI.Battle);
 						this.add(this.EnemyHeader);
 						this.add(this.GUI.Enemy);
@@ -3427,17 +3518,47 @@
 						if (newMode != ClientLib.Vis.Mode.CombatSetup && newMode != ClientLib.Vis.Mode.Battleground)
 							this.close();
 					},
-					makeHeader : function (text) {
-						var Header = new qx.ui.container.Composite(new qx.ui.layout.VBox(5)).set({
-								decorator : "pane-light-opaque"
+					makeHeader : function (text) {  
+                        var Header = new qx.ui.container.Composite(new qx.ui.layout.Grow()).set({
+                            alignX : "center",
+                            alignY : "middle", 
+                            zIndex : 11
+                        });
+                        
+                        Header.add(new qx.ui.container.Composite(new qx.ui.layout.VBox(5)).set({
+								decorator : "pane-light-opaque",
+                            allowGrowX : true,
+                            allowGrowY : true,
+
+                                //borderImageWidth : [ 0 8],
+                            //border-image-width: 9px;
+                            //border-image-slice: 9 fill;
+                            //border-width: 0px 8px;
+
+							}));
+                        Header.add(new qx.ui.basic.Label(text).set({
+                            paddingLeft : 9,
+                            allowGrowX : true,
+                            allowGrowY : true,
+                            paddingBottom : 2,
+							font : "font_size_13_bold_shadow"
+							}));
+                        
+						/*var Header = new qx.ui.container.Composite(new qx.ui.layout.VBox(5)).set({
+								decorator : "pane-light-opaque",
+                                //borderImageWidth : [ 0 8],
+                            //border-image-width: 9px;
+                            //border-image-slice: 9 fill;
+                            //border-width: 0px 8px;
+
 							});
 						Header.add(new qx.ui.basic.Label(text).set({
 								alignX : "center",
 								alignY : "middle",
-								paddingTop : -4,
-								paddingBottom : 4,
+                                marginTop : -1,
+                                marginBottom : -1,
 								font : "font_size_13_bold_shadow"
-							}));
+							}));*/
 						return Header;
 					},
 					makeSimView : function () {
@@ -3449,7 +3570,7 @@
 									this.simViews[i] = new TABS.GUI.Window.Stats.SimView(i, this);
 									this.GUI.Battle.add(this.simViews[i].GUI.Battle, {
 										flex : 1,
-										width : "100%"
+										width : "100%",
 									});
 									this.GUI.Enemy.add(this.simViews[i].GUI.Enemy, {
 										flex : 1,
@@ -3457,11 +3578,11 @@
 									});
 									this.GUI.Repair.add(this.simViews[i].GUI.Repair, {
 										flex : 1,
-										width : "100%"
+										width : "100%",
 									});
 									this.GUI.Loot.add(this.simViews[i].GUI.Loot, {
 										flex : 1,
-										width : "100%"
+										width : "100%",
 									});
 									this.GUI.Buttons.add(this.simViews[i].GUI.Buttons, {
 										flex : 1,
@@ -3637,6 +3758,7 @@
 							Enemy : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								//padding : 5,
 								allowGrowX : true,
+                                marginTop : 10,
 								marginLeft : 0,
 								marginRight : 0,
 								decorator : "pane-light-opaque"
@@ -3644,6 +3766,7 @@
 							Repair : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								//padding : 5,
 								allowGrowX : true,
+                                marginTop : 10,
 								marginLeft : 0,
 								marginRight : 0,
 								decorator : "pane-light-opaque"
@@ -3651,6 +3774,7 @@
 							Loot : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								//padding : 5,
 								allowGrowX : true,
+                                marginTop : 10,
 								marginLeft : 0,
 								marginRight : 0,
 								decorator : "pane-light-opaque"
