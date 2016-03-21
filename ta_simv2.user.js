@@ -2,7 +2,7 @@
 // @name            Tiberium Alliances Battle Simulator V2
 // @description     Allows you to simulate combat before actually attacking.
 // @author          Eistee & TheStriker & VisiG & Lobotommi & XDaast
-// @version         16.02.25
+// @version         16.03.17
 // @namespace       https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @include         https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
 // @icon            http://eistee82.github.io/ta_simv2/icon.png
@@ -2413,7 +2413,13 @@
 								CurrentCity = ClientLib.Data.MainData.GetInstance().get_Cities().get_CurrentCity();
 							if (CurrentOwnCity !== null && CurrentCity !== null && CurrentCity.CheckInvokeBattle(CurrentOwnCity, true) == ClientLib.Data.EAttackBaseResult.OK) {
 								clearTimeout(this.__Timeout);
-								this.__Timeout = setTimeout(this._reset.bind(this), 10000);
+                                if(PerforceChangelist >= 448942) { // patch 16.2
+                                    this.__Timeout = setTimeout(this._reset.bind(this), 3000);
+                                }
+                                else
+                                {
+                                    this.__Timeout = setTimeout(this._reset.bind(this), 10000);
+                                }
 								this.resetData();
 								this.setLock(true);
 								var formation = TABS.UTIL.Formation.Get(),
@@ -2461,7 +2467,15 @@
 					},
 					_updateTime : function () {
 						clearTimeout(this.__Timeout);
-						var time = this.__TimerStart + 10000 - Date.now();
+                        var time = 0;
+                        if(PerforceChangelist >= 448942) { // patch 16.2
+                            time = this.__TimerStart + 3000 - Date.now();
+                        }
+                        else
+                        {
+                            time = this.__TimerStart + 10000 - Date.now();
+                        }
+                        
 						if (time > 0) {
 							if (time > 100)
 								this.__Timeout = setTimeout(this._updateTime.bind(this), 100);
@@ -2904,9 +2918,11 @@
 							column:2
 						});
 						this.PlayArea.add(this.boxMove, {
+                            top : 400,
+							left : 65
 							//left : 65,
-							right : 7,
-							bottom : 170
+							//right : 7,
+							//bottom : 170
 						});
 
 						phe.cnc.Util.attachNetEvent(ClientLib.Vis.VisMain.GetInstance(), "ViewModeChange", ClientLib.Vis.ViewModeChange, this, this._onViewChanged);
