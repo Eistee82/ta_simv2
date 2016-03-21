@@ -3288,7 +3288,6 @@
 								TABS.SETTINGS.set("GUI.Window.Stats.Loot.visible", true);
 							}
 						}, this);
-
 						this.GUI = {
 							Battle : new qx.ui.container.Composite(new qx.ui.layout.HBox(-2)).set({
 								decorator : "pane-light-plain",
@@ -3413,6 +3412,7 @@
 								flex : 0
 							});
 						}
+						
 						this.add(this.GUI.Battle);
 						this.add(this.EnemyHeader);
 						this.add(this.GUI.Enemy);
@@ -3524,7 +3524,6 @@
                             alignY : "middle", 
                             zIndex : 11
                         });
-                        
                         Header.add(new qx.ui.container.Composite(new qx.ui.layout.VBox(5)).set({
 								decorator : "pane-light-opaque",
                             allowGrowX : true,
@@ -3548,7 +3547,7 @@
 									this.simViews[i] = new TABS.GUI.Window.Stats.SimView(i, this);
 									this.GUI.Battle.add(this.simViews[i].GUI.Battle, {
 										flex : 1,
-										width : "100%",
+										width : "100%"
 									});
 									this.GUI.Enemy.add(this.simViews[i].GUI.Enemy, {
 										flex : 1,
@@ -3556,11 +3555,11 @@
 									});
 									this.GUI.Repair.add(this.simViews[i].GUI.Repair, {
 										flex : 1,
-										width : "100%",
+										width : "100%"
 									});
 									this.GUI.Loot.add(this.simViews[i].GUI.Loot, {
 										flex : 1,
-										width : "100%",
+										width : "100%"
 									});
 									this.GUI.Buttons.add(this.simViews[i].GUI.Buttons, {
 										flex : 1,
