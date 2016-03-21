@@ -2952,34 +2952,34 @@
 								TABS.UTIL.Formation.Set(formation);
 								break;
 							case 98: // NUM 2
-								formation = TABS.UTIL.Formation.Shift(formation, "d", null);
-								TABS.UTIL.Formation.Set(formation);
+								//formation = TABS.UTIL.Formation.Shift(formation, "d", null);
+								//TABS.UTIL.Formation.Set(formation);
 								break;
 							case 99: // NUM 3
 								formation = TABS.UTIL.Formation.Mirror(formation, "v", null);
 								TABS.UTIL.Formation.Set(formation);
 								break;
 							case 100: // NUM 4
-								formation = TABS.UTIL.Formation.Shift(formation, "l", null);
-								TABS.UTIL.Formation.Set(formation);
+								//formation = TABS.UTIL.Formation.Shift(formation, "l", null);
+								//TABS.UTIL.Formation.Set(formation);
 								break;
 							case 101: // NUM 5
 								formation = TABS.UTIL.Formation.toggle_Enabled(formation);
 								TABS.UTIL.Formation.Set(formation);
 								break;
 							case 102: // NUM 6
-								formation = TABS.UTIL.Formation.Shift(formation, "r", null);
-								TABS.UTIL.Formation.Set(formation);
+								//formation = TABS.UTIL.Formation.Shift(formation, "r", null);
+								//TABS.UTIL.Formation.Set(formation);
 								break;
 							case 103: // NUM 7
-								this.onClick_btnStats();
+								//this.onClick_btnStats();
 								break;
 							case 104: // NUM 8
-								formation = TABS.UTIL.Formation.Shift(formation, "u", null);
-								TABS.UTIL.Formation.Set(formation);
+								//formation = TABS.UTIL.Formation.Shift(formation, "u", null);
+								//TABS.UTIL.Formation.Set(formation);
 								break;
 							case 105: // NUM 9
-								this.onClick_CNCOpt();
+								//this.onClick_CNCOpt();
 								break;
 							case 106: // NUM *
 								formation = TABS.UTIL.Formation.toggle_Enabled(formation, ClientLib.Data.EUnitGroup.Infantry);
@@ -3252,7 +3252,42 @@
 							alignY : "middle"
 						});
 						this.setStatus("0 " + this.tr("simulations in cache"));
+                        
+                        //Enemy Health Section//
+						this.EnemyHeader = this.makeHeader(this.tr("tnf:combat target"));
+						this.EnemyHeader.addListener("click", function () {
+							if (this.GUI.Enemy.isVisible()) {
+								this.GUI.Enemy.exclude();
+								TABS.SETTINGS.set("GUI.Window.Stats.Enemy.visible", false);
+							} else {
+								this.GUI.Enemy.show();
+								TABS.SETTINGS.set("GUI.Window.Stats.Enemy.visible", true);
+							}
+						}, this);
 
+						//Repair Section//
+						this.RepairHeader = this.makeHeader(this.tr("tnf:own repair cost").replace(":", ""));
+						this.RepairHeader.addListener("click", function () {
+							if (this.GUI.Repair.isVisible()) {
+								this.GUI.Repair.exclude();
+								TABS.SETTINGS.set("GUI.Window.Stats.Repair.visible", false);
+							} else {
+								this.GUI.Repair.show();
+								TABS.SETTINGS.set("GUI.Window.Stats.Repair.visible", true);
+							}
+						}, this);
+
+						//Loot Section//
+						this.LootHeader = this.makeHeader(this.tr("tnf:lootable resources:").replace(":", ""));
+						this.LootHeader.addListener("click", function () {
+							if (this.GUI.Loot.isVisible()) {
+								this.GUI.Loot.exclude();
+								TABS.SETTINGS.set("GUI.Window.Stats.Loot.visible", false);
+							} else {
+								this.GUI.Loot.show();
+								TABS.SETTINGS.set("GUI.Window.Stats.Loot.visible", true);
+							}
+						}, this);
 						this.GUI = {
 							Battle : new qx.ui.container.Composite(new qx.ui.layout.HBox(-2)).set({
 								decorator : "pane-light-plain",
@@ -3263,18 +3298,21 @@
 							Enemy : new qx.ui.container.Composite(new qx.ui.layout.HBox(-2)).set({
 								decorator : "pane-light-plain",
 								allowGrowX : true,
+                                marginTop : -18,
 								marginLeft : 0,
 								marginRight : 0
 							}),
 							Repair : new qx.ui.container.Composite(new qx.ui.layout.HBox(-2)).set({
 								decorator : "pane-light-plain",
 								allowGrowX : true,
-								marginLeft : 0,
+                                marginTop : -18,
+                                marginLeft : 0,
 								marginRight : 0
 							}),
 							Loot : new qx.ui.container.Composite(new qx.ui.layout.HBox(-2)).set({
 								decorator : "pane-light-plain",
 								allowGrowX : true,
+                                marginTop : -18,
 								marginLeft : 0,
 								marginRight : 0
 							}),
@@ -3296,6 +3334,7 @@
 							Enemy : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
 								padding : 9,
+                                marginTop : 10,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
@@ -3303,6 +3342,7 @@
 							Repair : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
 								padding : 9,
+                                marginTop : 10,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
@@ -3310,6 +3350,7 @@
 							Loot : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								width : 29,
 								padding : 9,
+                                marginTop : 10,
 								allowGrowX : true,
 								marginLeft : 0,
 								marginRight : 0
@@ -3371,43 +3412,7 @@
 								flex : 0
 							});
 						}
-
-						//Enemy Health Section//
-						this.EnemyHeader = this.makeHeader(this.tr("tnf:combat target"));
-						this.EnemyHeader.addListener("click", function () {
-							if (this.GUI.Enemy.isVisible()) {
-								this.GUI.Enemy.exclude();
-								TABS.SETTINGS.set("GUI.Window.Stats.Enemy.visible", false);
-							} else {
-								this.GUI.Enemy.show();
-								TABS.SETTINGS.set("GUI.Window.Stats.Enemy.visible", true);
-							}
-						}, this);
-
-						//Repair Section//
-						this.RepairHeader = this.makeHeader(this.tr("tnf:own repair cost").replace(":", ""));
-						this.RepairHeader.addListener("click", function () {
-							if (this.GUI.Repair.isVisible()) {
-								this.GUI.Repair.exclude();
-								TABS.SETTINGS.set("GUI.Window.Stats.Repair.visible", false);
-							} else {
-								this.GUI.Repair.show();
-								TABS.SETTINGS.set("GUI.Window.Stats.Repair.visible", true);
-							}
-						}, this);
-
-						//Loot Section//
-						this.LootHeader = this.makeHeader(this.tr("tnf:lootable resources:").replace(":", ""));
-						this.LootHeader.addListener("click", function () {
-							if (this.GUI.Loot.isVisible()) {
-								this.GUI.Loot.exclude();
-								TABS.SETTINGS.set("GUI.Window.Stats.Loot.visible", false);
-							} else {
-								this.GUI.Loot.show();
-								TABS.SETTINGS.set("GUI.Window.Stats.Loot.visible", true);
-							}
-						}, this);
-
+						
 						this.add(this.GUI.Battle);
 						this.add(this.EnemyHeader);
 						this.add(this.GUI.Enemy);
@@ -3513,16 +3518,23 @@
 						if (newMode != ClientLib.Vis.Mode.CombatSetup && newMode != ClientLib.Vis.Mode.Battleground)
 							this.close();
 					},
-					makeHeader : function (text) {
-						var Header = new qx.ui.container.Composite(new qx.ui.layout.VBox(5)).set({
-								decorator : "pane-light-opaque"
-							});
-						Header.add(new qx.ui.basic.Label(text).set({
-								alignX : "center",
-								alignY : "middle",
-								paddingTop : -4,
-								paddingBottom : 4,
-								font : "font_size_13_bold_shadow"
+					makeHeader : function (text) {  
+                        var Header = new qx.ui.container.Composite(new qx.ui.layout.Grow()).set({
+                            alignX : "center",
+                            alignY : "middle", 
+                            zIndex : 11
+                        });
+                        Header.add(new qx.ui.container.Composite(new qx.ui.layout.VBox(5)).set({
+								decorator : "pane-light-opaque",
+                            allowGrowX : true,
+                            allowGrowY : true,
+							}));
+                        Header.add(new qx.ui.basic.Label(text).set({
+                            paddingLeft : 9,
+                            allowGrowX : true,
+                            allowGrowY : true,
+                            paddingBottom : 2,
+							font : "font_size_13_bold_shadow"
 							}));
 						return Header;
 					},
@@ -3723,6 +3735,7 @@
 							Enemy : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								//padding : 5,
 								allowGrowX : true,
+                                marginTop : 10,
 								marginLeft : 0,
 								marginRight : 0,
 								decorator : "pane-light-opaque"
@@ -3730,6 +3743,7 @@
 							Repair : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								//padding : 5,
 								allowGrowX : true,
+                                marginTop : 10,
 								marginLeft : 0,
 								marginRight : 0,
 								decorator : "pane-light-opaque"
@@ -3737,6 +3751,7 @@
 							Loot : new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
 								//padding : 5,
 								allowGrowX : true,
+                                marginTop : 10,
 								marginLeft : 0,
 								marginRight : 0,
 								decorator : "pane-light-opaque"
