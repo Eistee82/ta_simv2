@@ -2952,34 +2952,34 @@
 								TABS.UTIL.Formation.Set(formation);
 								break;
 							case 98: // NUM 2
-								formation = TABS.UTIL.Formation.Shift(formation, "d", null);
-								TABS.UTIL.Formation.Set(formation);
+								//formation = TABS.UTIL.Formation.Shift(formation, "d", null);
+								//TABS.UTIL.Formation.Set(formation);
 								break;
 							case 99: // NUM 3
 								formation = TABS.UTIL.Formation.Mirror(formation, "v", null);
 								TABS.UTIL.Formation.Set(formation);
 								break;
 							case 100: // NUM 4
-								formation = TABS.UTIL.Formation.Shift(formation, "l", null);
-								TABS.UTIL.Formation.Set(formation);
+								//formation = TABS.UTIL.Formation.Shift(formation, "l", null);
+								//TABS.UTIL.Formation.Set(formation);
 								break;
 							case 101: // NUM 5
 								formation = TABS.UTIL.Formation.toggle_Enabled(formation);
 								TABS.UTIL.Formation.Set(formation);
 								break;
 							case 102: // NUM 6
-								formation = TABS.UTIL.Formation.Shift(formation, "r", null);
-								TABS.UTIL.Formation.Set(formation);
+								//formation = TABS.UTIL.Formation.Shift(formation, "r", null);
+								//TABS.UTIL.Formation.Set(formation);
 								break;
 							case 103: // NUM 7
-								this.onClick_btnStats();
+								//this.onClick_btnStats();
 								break;
 							case 104: // NUM 8
-								formation = TABS.UTIL.Formation.Shift(formation, "u", null);
-								TABS.UTIL.Formation.Set(formation);
+								//formation = TABS.UTIL.Formation.Shift(formation, "u", null);
+								//TABS.UTIL.Formation.Set(formation);
 								break;
 							case 105: // NUM 9
-								this.onClick_CNCOpt();
+								//this.onClick_CNCOpt();
 								break;
 							case 106: // NUM *
 								formation = TABS.UTIL.Formation.toggle_Enabled(formation, ClientLib.Data.EUnitGroup.Infantry);
