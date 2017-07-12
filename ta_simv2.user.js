@@ -1,3 +1,4 @@
+
 // ==UserScript==
 // @name            Tiberium Alliances Battle Simulator V2
 // @description     Allows you to simulate combat before actually attacking.
@@ -112,9 +113,9 @@
 					},
 					Simulate : "FactionUI/icons/icon_attack_simulate_combat.png",
 					CNCOpt : "http://cncopt.com/favicon.ico",
-					one:"https://www.openmerchantaccount.com/img/swap1_2.png",
-					two:"https://www.openmerchantaccount.com/img/swap2_3.png",
-					three:"https://www.openmerchantaccount.com/img/swap3_4.png"
+					one:"https://image.ibb.co/csjKea/swap1_2.png",
+					two:"https://image.ibb.co/kNmAkF/swap2_3.png",
+					three:"https://image.ibb.co/gW3ZCv/swap3_4.png"
 				}
 			});
 			qx.Class.define("TABS.SETTINGS", {							// [static]		Settings
