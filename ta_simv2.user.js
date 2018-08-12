@@ -3,9 +3,9 @@
 // @name            Tiberium Alliances Battle Simulator V2
 // @description     Allows you to simulate combat before actually attacking.
 // @author          Eistee & TheStriker & VisiG & Lobotommi & XDaast
-// @version         16.03.21
-// @namespace       https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
-// @include         https://prodgame*.alliances.commandandconquer.com/*/index.aspx*
+// @version         18.07.12
+// @namespace       http*://cncapp*.alliances.commandandconquer.com/*/index.aspx*
+// @include         http*://cncapp*.alliances.commandandconquer.com/*/index.aspx*
 // @icon            http://eistee82.github.io/ta_simv2/icon.png
 // @updateURL       http://eistee82.github.io/ta_simv2/ta_simv2.user.js
 // @downloadURL     http://eistee82.github.io/ta_simv2/ta_simv2.user.js
