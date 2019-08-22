@@ -35,7 +35,7 @@
 					}
 				},
 				statics : {
-					_Init : [],
+					_Init : [], 
 					addInit : function (func) {
 						this._Init.push(func);
 					},
