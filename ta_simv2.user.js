@@ -3,7 +3,7 @@
 // @name            Tiberium Alliances Battle Simulator V2
 // @description     Allows you to simulate combat before actually attacking.
 // @author          Eistee & TheStriker & VisiG & Lobotommi & XDaast
-// @version         18.07.12
+// @version         18.07.13
 // @namespace       https://cncapp*.alliances.commandandconquer.com/*/index.aspx*
 // @include         https://cncapp*.alliances.commandandconquer.com/*/index.aspx*
 // @icon            http://eistee82.github.io/ta_simv2/icon.png
@@ -3137,7 +3137,7 @@
 						this.btnBack.addListener("click", this.onClick_btnBack, this);
 						this.ReportReplayOverlay.add(this.btnBack, {
 							top : 10,
-							right : 540
+							right : 650
 						});
 
 						this.btnSkip = new qx.ui.form.Button(qxApp.tr("Skip")).set({
@@ -3149,7 +3149,7 @@
 						this.btnSkip.addListener("click", this.onClick_btnSkip, this);
 						this.ReportReplayOverlay.add(this.btnSkip, {
 							top : 10,
-							left : 542
+							left : 650
 						});
 					} catch (e) {
 						console.group("Tiberium Alliances Battle Simulator V2");
